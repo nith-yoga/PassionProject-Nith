@@ -49,8 +49,6 @@ namespace PassionProject_Nith.Controllers
                 return NotFound();
             }
 
-            //Console.WriteLine($"Album: {album.AlbumTitle}, Artist: {album.ArtistName}, Tracks: {album.Tracks.Count}");
-
             return View(album);
         }
 
@@ -67,9 +65,8 @@ namespace PassionProject_Nith.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([Bind("AlbumTitle,Genre,ReleaseDate,ArtistId")] Album album)
         {
-            Console.WriteLine($"Submitted ArtistId: {album.ArtistId}");
 
-            if (album.ArtistId == 0) // This checks if the ArtistId was not set
+            if (album.ArtistId == 0)
             {
                 ModelState.AddModelError("ArtistId", "Artist is required.");
             }
@@ -83,15 +80,6 @@ namespace PassionProject_Nith.Controllers
                 _context.Add(album);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-
-            // Log ModelState errors for debugging
-            foreach (var entry in ModelState)
-            {
-                foreach (var error in entry.Value.Errors)
-                {
-                    Console.WriteLine($"Key: {entry.Key}, Error: {error.ErrorMessage}");
-                }
             }
 
             var artists = await _context.Artists.ToListAsync();

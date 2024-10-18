@@ -20,7 +20,9 @@ namespace PassionProject_Nith.Controllers
             return View(await _context.Artists.ToListAsync());
         }
 
-        // sortOrder Function
+        /* GET: artists/index
+         * sortOrder Function
+         */
         [HttpGet("artists/index")]
         public IActionResult Index(string sortOrder)
         {
@@ -66,14 +68,6 @@ namespace PassionProject_Nith.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Log the ModelState errors for debugging
-            foreach (var entry in ModelState)
-            {
-                foreach (var error in entry.Value.Errors)
-                {
-                    Console.WriteLine($"Key: {entry.Key}, Error: {error.ErrorMessage}");
-                }
-            }
             return View(artist);
         }
 

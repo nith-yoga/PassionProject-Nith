@@ -40,14 +40,7 @@ namespace PassionProject_Nith.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            // Log ModelState errors for debugging
-            foreach (var entry in ModelState)
-            {
-                foreach (var error in entry.Value.Errors)
-                {
-                    Console.WriteLine($"Key: {entry.Key}, Error: {error.ErrorMessage}");
-                }
-            }
+
             var albums = await _context.Albums.ToListAsync();
             ViewBag.AlbumSelectList = new SelectList(albums, "AlbumId", "AlbumTitle");
 
@@ -85,14 +78,7 @@ namespace PassionProject_Nith.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            // Log ModelState errors for debugging
-            foreach (var entry in ModelState)
-            {
-                foreach (var error in entry.Value.Errors)
-                {
-                    Console.WriteLine($"Key: {entry.Key}, Error: {error.ErrorMessage}");
-                }
-            }
+
             return View(track);
         }
 
