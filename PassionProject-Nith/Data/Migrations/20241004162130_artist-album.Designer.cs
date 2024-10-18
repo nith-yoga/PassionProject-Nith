@@ -12,15 +12,15 @@ using PassionProject_Nith.Data;
 namespace PassionProject_Nith.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241002152412_Artist")]
-    partial class Artist
+    [Migration("20241004162130_artist-album")]
+    partial class artistalbum
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -227,13 +227,42 @@ namespace PassionProject_Nith.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PassionProject_Nith.Models.Artist", b =>
+            modelBuilder.Entity("PassionProject_Nith.Models.Album", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AlbumId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AlbumId"));
+
+                    b.Property<string>("AlbumTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("ReleaseDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("AlbumId");
+
+                    b.HasIndex("ArtistId");
+
+                    b.ToTable("Albums");
+                });
+
+            modelBuilder.Entity("PassionProject_Nith.Models.Artist", b =>
+                {
+                    b.Property<int>("ArtistId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArtistId"));
 
                     b.Property<string>("ArtistBio")
                         .IsRequired()
@@ -243,18 +272,43 @@ namespace PassionProject_Nith.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ArtistId");
 
                     b.ToTable("Artists");
                 });
 
-            modelBuilder.Entity("PassionProject_Nith.Models.User", b =>
+            modelBuilder.Entity("PassionProject_Nith.Models.Track", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TrackId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TrackId"));
+
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeOnly>("TrackLength")
+                        .HasColumnType("time");
+
+                    b.Property<string>("TrackTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TrackId");
+
+                    b.HasIndex("AlbumId");
+
+                    b.ToTable("Tracks");
+                });
+
+            modelBuilder.Entity("PassionProject_Nith.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -268,7 +322,7 @@ namespace PassionProject_Nith.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
@@ -322,6 +376,36 @@ namespace PassionProject_Nith.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PassionProject_Nith.Models.Album", b =>
+                {
+                    b.HasOne("PassionProject_Nith.Models.Artist", null)
+                        .WithMany("Albums")
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PassionProject_Nith.Models.Track", b =>
+                {
+                    b.HasOne("PassionProject_Nith.Models.Album", "Album")
+                        .WithMany("Tracks")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
+                });
+
+            modelBuilder.Entity("PassionProject_Nith.Models.Album", b =>
+                {
+                    b.Navigation("Tracks");
+                });
+
+            modelBuilder.Entity("PassionProject_Nith.Models.Artist", b =>
+                {
+                    b.Navigation("Albums");
                 });
 #pragma warning restore 612, 618
         }

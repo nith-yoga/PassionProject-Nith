@@ -6,17 +6,10 @@ namespace PassionProject_Nith.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        // Users.cs will map to a "Users" table
-        public DbSet<User> Users {  get; set; }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Artist> Artists { get; set; }
-
         public DbSet<Album> Albums { get; set; }
-
         public DbSet<Track> Tracks { get; set; }
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
     }
 }

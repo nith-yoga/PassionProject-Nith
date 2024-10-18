@@ -1,0 +1,35 @@
+﻿@model PassionProject_Nith.Models.Album
+
+<h1>Add Album</h1>
+
+<form method="POST" asp-action="Create">
+    <div>
+        <label asp-for="AlbumTitle"></label>
+        <input asp-for="AlbumTitle" />
+        <span asp-validation-for="AlbumTitle" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Genre"></label>
+        <input asp-for="Genre" />
+        <span asp-validation-for="Genre" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="ReleaseDate"></label>
+        <input asp-for="ReleaseDate" type="date" />
+        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="ArtistId"></label>
+        <select asp-for="ArtistId" asp-items="ViewBag.ArtistSelectList"></select>
+        <span asp-validation-for="ArtistId" class="text-danger"></span>
+    </div>
+    <div>
+    <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

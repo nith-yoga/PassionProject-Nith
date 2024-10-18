@@ -1,0 +1,25 @@
+﻿@model PassionProject_Nith.Models.Artist
+
+<h1>Add Artist</h1>
+
+<form method="POST" asp-action="Create">
+    <div>
+        <label asp-for="ArtistName"></label>
+        <input asp-for="ArtistName" />
+        <span asp-validation-for="ArtistName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="ArtistBio"></label>
+        <textarea asp-for="ArtistBio"></textarea>
+        <span asp-validation-for="ArtistBio" class="text-danger"></span>
+    </div>
+    <div>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

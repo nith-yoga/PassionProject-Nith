@@ -12,47 +12,47 @@ namespace PassionProject_Nith.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AlbumsAPIController : ControllerBase
+    public class ArtistsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public AlbumsAPIController(ApplicationDbContext context)
+        public ArtistsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/AlbumsAPI
+        // GET: api/Artists
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Album>>> GetAlbums()
+        public async Task<ActionResult<IEnumerable<Artist>>> GetArtists()
         {
-            return await _context.Albums.ToListAsync();
+            return await _context.Artists.ToListAsync();
         }
 
-        // GET: api/AlbumsAPI/5
+        // GET: api/Artists/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Album>> GetAlbum(int id)
+        public async Task<ActionResult<Artist>> GetArtist(int id)
         {
-            var album = await _context.Albums.FindAsync(id);
+            var artist = await _context.Artists.FindAsync(id);
 
-            if (album == null)
+            if (artist == null)
             {
                 return NotFound();
             }
 
-            return album;
+            return artist;
         }
 
-        // PUT: api/AlbumsAPI/5
+        // PUT: api/Artists/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAlbum(int id, Album album)
+        public async Task<IActionResult> PutArtist(int id, Artist artist)
         {
-            if (id != album.AlbumId)
+            if (id != artist.ArtistId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(album).State = EntityState.Modified;
+            _context.Entry(artist).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace PassionProject_Nith.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AlbumExists(id))
+                if (!ArtistExists(id))
                 {
                     return NotFound();
                 }
@@ -73,47 +73,36 @@ namespace PassionProject_Nith.Controllers
             return NoContent();
         }
 
-        // POST: api/AlbumsAPI
+        // POST: api/Artists
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Album>> PostAlbum(Album album)
+        public async Task<ActionResult<Artist>> PostArtist(Artist artist)
         {
-            _context.Albums.Add(album);
+            _context.Artists.Add(artist);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAlbum", new { id = album.AlbumId }, album);
+            return CreatedAtAction("GetArtist", new { id = artist.ArtistId }, artist);
         }
 
-        // DELETE: api/AlbumsAPI/5
+        // DELETE: api/Artists/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAlbum(int id)
+        public async Task<IActionResult> DeleteArtist(int id)
         {
-            var album = await _context.Albums.FindAsync(id);
-            if (album == null)
+            var artist = await _context.Artists.FindAsync(id);
+            if (artist == null)
             {
                 return NotFound();
             }
 
-            _context.Albums.Remove(album);
+            _context.Artists.Remove(artist);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool AlbumExists(int id)
+        private bool ArtistExists(int id)
         {
-            return _context.Albums.Any(e => e.AlbumId == id);
-        }
-
-        // Function to return a list of albums
-
-        [HttpGet(template: "List")]
-
-        public async Task<ActionResult<IEnumerable<AlbumsDto>>> ListAlbums()
-        {
-            IEnumerable<AlbumsDto> AlbumsDto = await _albumsService.ListAlbums();
-
-            return Ok(AlbumsDto);
+            return _context.Artists.Any(e => e.ArtistId == id);
         }
     }
 }

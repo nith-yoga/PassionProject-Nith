@@ -12,47 +12,47 @@ namespace PassionProject_Nith.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ArtistAPIController : ControllerBase
+    public class TracksController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public ArtistAPIController(ApplicationDbContext context)
+        public TracksController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/ArtistAPI
+        // GET: api/Tracks
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Artist>>> GetArtists()
+        public async Task<ActionResult<IEnumerable<Track>>> GetTracks()
         {
-            return await _context.Artists.ToListAsync();
+            return await _context.Tracks.ToListAsync();
         }
 
-        // GET: api/ArtistAPI/5
+        // GET: api/Tracks/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Artist>> GetArtist(int id)
+        public async Task<ActionResult<Track>> GetTrack(int id)
         {
-            var artist = await _context.Artists.FindAsync(id);
+            var track = await _context.Tracks.FindAsync(id);
 
-            if (artist == null)
+            if (track == null)
             {
                 return NotFound();
             }
 
-            return artist;
+            return track;
         }
 
-        // PUT: api/ArtistAPI/5
+        // PUT: api/Tracks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutArtist(int id, Artist artist)
+        public async Task<IActionResult> PutTrack(int id, Track track)
         {
-            if (id != artist.ArtistId)
+            if (id != track.TrackId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(artist).State = EntityState.Modified;
+            _context.Entry(track).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace PassionProject_Nith.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ArtistExists(id))
+                if (!TrackExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace PassionProject_Nith.Controllers
             return NoContent();
         }
 
-        // POST: api/ArtistAPI
+        // POST: api/Tracks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Artist>> PostArtist(Artist artist)
+        public async Task<ActionResult<Track>> PostTrack(Track track)
         {
-            _context.Artists.Add(artist);
+            _context.Tracks.Add(track);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetArtist", new { id = artist.ArtistId }, artist);
+            return CreatedAtAction("GetTrack", new { id = track.TrackId }, track);
         }
 
-        // DELETE: api/ArtistAPI/5
+        // DELETE: api/Tracks/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteArtist(int id)
+        public async Task<IActionResult> DeleteTrack(int id)
         {
-            var artist = await _context.Artists.FindAsync(id);
-            if (artist == null)
+            var track = await _context.Tracks.FindAsync(id);
+            if (track == null)
             {
                 return NotFound();
             }
 
-            _context.Artists.Remove(artist);
+            _context.Tracks.Remove(track);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ArtistExists(int id)
+        private bool TrackExists(int id)
         {
-            return _context.Artists.Any(e => e.ArtistId == id);
+            return _context.Tracks.Any(e => e.TrackId == id);
         }
     }
 }

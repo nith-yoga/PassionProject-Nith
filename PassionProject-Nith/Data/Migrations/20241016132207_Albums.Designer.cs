@@ -12,15 +12,15 @@ using PassionProject_Nith.Data;
 namespace PassionProject_Nith.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241003202449_album")]
-    partial class album
+    [Migration("20241016132207_Albums")]
+    partial class Albums
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

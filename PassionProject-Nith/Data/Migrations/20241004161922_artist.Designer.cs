@@ -12,15 +12,15 @@ using PassionProject_Nith.Data;
 namespace PassionProject_Nith.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241002155125_album-tracks")]
-    partial class albumtracks
+    [Migration("20241004161922_artist")]
+    partial class artist
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -242,6 +242,10 @@ namespace PassionProject_Nith.Data.Migrations
                     b.Property<int>("ArtistId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly>("ReleaseDate")
                         .HasColumnType("date");
 
@@ -249,7 +253,7 @@ namespace PassionProject_Nith.Data.Migrations
 
                     b.HasIndex("ArtistId");
 
-                    b.ToTable("Album");
+                    b.ToTable("Albums");
                 });
 
             modelBuilder.Entity("PassionProject_Nith.Models.Artist", b =>
@@ -295,7 +299,7 @@ namespace PassionProject_Nith.Data.Migrations
 
                     b.HasIndex("AlbumId");
 
-                    b.ToTable("Track");
+                    b.ToTable("Tracks");
                 });
 
             modelBuilder.Entity("PassionProject_Nith.Models.User", b =>
@@ -376,13 +380,11 @@ namespace PassionProject_Nith.Data.Migrations
 
             modelBuilder.Entity("PassionProject_Nith.Models.Album", b =>
                 {
-                    b.HasOne("PassionProject_Nith.Models.Artist", "Artist")
+                    b.HasOne("PassionProject_Nith.Models.Artist", null)
                         .WithMany("Albums")
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Artist");
                 });
 
             modelBuilder.Entity("PassionProject_Nith.Models.Track", b =>

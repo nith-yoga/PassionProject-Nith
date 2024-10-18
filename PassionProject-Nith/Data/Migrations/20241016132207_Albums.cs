@@ -5,7 +5,7 @@
 namespace PassionProject_Nith.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class artistalbums : Migration
+    public partial class Albums : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
